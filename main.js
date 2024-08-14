@@ -1,7 +1,8 @@
-const {app, BrowserWindow, ipcMain, Menu, globalShortcut} = require('electron')
-const path = require("path") 
+const {app, BrowserWindow, ipcMain, Menu, globalShortcut, webContents, shell} = require('electron')
+const path = require('path') 
 const os = require('os')
-
+const fs = require('fs')
+let destination = path.join(os.homedir(), 'Audios-Gravador')
 
 const isDev = process.env.NODE_ENV !== undefined && process.env.NODE_ENV === "development" ? true : false
 
@@ -9,9 +10,9 @@ const isMac = process.platform === 'darwin' ? true : false
 
 function createWindow() {
     const win = new BrowserWindow({
-        width: isDev ? 950 : 500,
+        width: isDev ? 950 : 1000,
         resizable: isDev ? true : false,
-        height: 300,
+        height: 500,
         backgroundColor: '#234',
         icon: path.join(__dirname, "assets", "icon", "icon.png"),
         show: false,
@@ -39,7 +40,8 @@ function createWindow() {
             label: app.name,
             submenu: [
                 { label: "Preferences", click: () => {} },
-                { label: "Open destination folder", click: () => {} }
+                { label: "Open destination folder", click: () => { shell.openPath(destination) } },
+                { label: "Console", click: () => { win.webContents.openDevTools()} }
             ]
         },
 
@@ -75,4 +77,9 @@ app.on("activate", () => {
 
 ipcMain.on("open_new_window", () => {
     createWindow()
+})
+
+ipcMain.on("save_buffer", (e, buffer) => {
+    const filePath = path.join(destination, `${Date.now()}`)
+    fs.writeFileSync(`${filePath}.webm`, buffer)
 })
