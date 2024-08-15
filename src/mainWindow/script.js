@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     micInput.addEventListener("change", (event) => {
         selectedDeviceId = event.target.value
-        console.log(selectedDeviceId)
     })
 
 
@@ -78,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function saveData() {
         const blob = new Blob(chunks, {"type": "audio/webm;  codecs=opsus"})
-        console.log(blob)
 
         blob.arrayBuffer().then(blobBuffer => {
             const buffer = new Buffer(blobBuffer, "binary")

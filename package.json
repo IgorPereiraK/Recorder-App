@@ -5,11 +5,20 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "start_dev": "NODE_ENV=development electron"
+    "start_dev": "NODE_ENV=development electron",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "author": "",
   "license": "ISC",
+  "build": {
+    "appId": "com.igorpereirabr.recorder",
+    "win": {
+      "icon": "./assets/icon/icon.png"
+    }
+  },
   "devDependencies": {
-    "electron": "^31.3.1"
+    "electron": "^31.3.1",
+    "electron-builder": "^24.13.3"
   }
 }
